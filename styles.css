@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0e6ff;
+}
+
+.navbar {
+    margin-bottom: 20px;
+    background-color: #b19cd9 !important;
+}
+
+.navbar-light .navbar-brand,
+.navbar-light .nav-link {
+    color: #f0e6ff !important;
+}
+
+#game-container {
+    border: 1px solid #b19cd9;
+    padding: 20px;
+    background-color:hwb(261 87% 2%);
+    box-shadow: 0 0 10px rgba(5, 5, 5, 0.2);
+}
+
+.card {
+    height: 100%;
+    background-color: #b19cd9(237, 191, 243, 0.918);
+    border-color: #b19cd9;
+}
+
+.btn-primary {
+    background-color: #b19cd9;
+    border-color: #b19cd9;
+}
+
+.btn-primary:hover {
+    background-color: #9a85c7;
+    border-color: #9a85c7;
+}
+
+.btn-secondary {
+    background-color: #9a85c7;
+    border-color: #9a85c7;
+}
+
+.btn-secondary:hover {
+    background-color: #8670b5;
+    border-color: #8670b5;
+}
+
+h1, h2 {
+    color: #7a5dc7;
+}
+
+#word-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.letter-box {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 2px solid #d4c4fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #f8f4ff;
+}
+
+#keyboard {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.key {
+    padding: 10px;
+    border: none;
+    background-color: #e6f0ff;
+    cursor: pointer;
+    font-weight: bold;
+    color: #7a5dc7;
+}
+
+.key:hover {
+    background-color: #d4e5ff;
+}
+
+.correct {
+    background-color: #a8d8a8;
+    color: #ffffff;
+}
+
+.present {
+    background-color: #f9d89c;
+    color: #ffffff;
+}
+
+.absent {
+    background-color: #d3d3d3;
+    color: #ffffff;
+}
+
+.hint {
+    background-color: #ffd700;
+    color: #000000;
+}
+
+.list-group-item {
+    background-color: #f8f4ff;
+    border-color: #d4c4fb;
+}
+

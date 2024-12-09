@@ -1,0 +1,140 @@
+const words = ['GATOS', 'PERRO', 'CASA', 'ARBOL', 'LIBRO', 'PLAYA', 'COCHE', 'RELOJ', 'FLOR', 'MESA'];
+let targetWord = '';
+let currentGuess = [];
+let guessCount = 0;
+let score = 0;
+
+const wordGrid = document.getElementById('word-grid');
+const keyboard = document.getElementById('keyboard');
+const messageElement = document.getElementById('message');
+const scoreElement = document.getElementById('score');
+const restartButton = document.getElementById('restart-btn');
+
+function initializeGame() {
+    targetWord = words[Math.floor(Math.random() * words.length)];
+    currentGuess = [];
+    guessCount = 0;
+    messageElement.textContent = '';
+    wordGrid.innerHTML = '';
+    keyboard.innerHTML = '';
+    score = 0;
+    scoreElement.textContent = score;
+
+    for (let i = 0; i < 30; i++) {
+        const letterBox = document.createElement('div');
+        letterBox.classList.add('letter-box');
+        wordGrid.appendChild(letterBox);
+    }
+
+    const keys = 'QWERTYUIOPASDFGHJKLÑZXCVBNM';
+    for (const key of keys) {
+        const keyButton = document.createElement('button');
+        keyButton.textContent = key;
+        keyButton.classList.add('key');
+        keyButton.addEventListener('click', () => handleKeyPress(key));
+        keyboard.appendChild(keyButton);
+    }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '←';
+    deleteButton.classList.add('key');
+    deleteButton.addEventListener('click', handleDelete);
+    keyboard.appendChild(deleteButton);
+
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Enter';
+    submitButton.classList.add('key');
+    submitButton.addEventListener('click', handleSubmit);
+    keyboard.appendChild(submitButton);
+}
+
+function handleKeyPress(key) {
+    if (currentGuess.length < 5 && guessCount < 6) {
+        currentGuess.push(key);
+        updateGrid();
+    }
+}
+
+function handleDelete() {
+    if (currentGuess.length > 0) {
+        currentGuess.pop();
+        updateGrid();
+    }
+}
+
+function handleSubmit() {
+    if (currentGuess.length === 5 && guessCount < 6) {
+        checkGuess();
+        guessCount++;
+        currentGuess = [];
+        updateGrid();
+    }
+}
+
+function updateGrid() {
+    const letterBoxes = wordGrid.children;
+    for (let i = 0; i < 30; i++) {
+        if (i < guessCount * 5 + currentGuess.length) {
+            letterBoxes[i].textContent = i >= guessCount * 5 ? currentGuess[i - guessCount * 5] : letterBoxes[i].textContent;
+        } else {
+            letterBoxes[i].textContent = '';
+        }
+    }
+}
+
+function checkGuess() {
+    const guess = currentGuess.join('');
+    const letterBoxes = wordGrid.children;
+    const keyButtons = keyboard.children;
+
+    for (let i = 0; i < 5; i++) {
+        const letterBox = letterBoxes[guessCount * 5 + i];
+        const keyButton = Array.from(keyButtons).find(key => key.textContent === guess[i]);
+
+        if (guess[i] === targetWord[i]) {
+            letterBox.classList.add('correct');
+            keyButton.classList.add('correct');
+        } else if (targetWord.includes(guess[i])) {
+            letterBox.classList.add('present');
+            keyButton.classList.add('present');
+        } else {
+            letterBox.classList.add('absent');
+            keyButton.classList.add('absent');
+        }
+    }
+
+    if (guess === targetWord) {
+        messageElement.textContent = '¡Felicidades! Has adivinado la palabra.';
+        score += 10;
+        scoreElement.textContent = score;
+        disableInput();
+    } else if (guessCount === 5) {
+        messageElement.textContent = `Juego terminado. La palabra era ${targetWord}.`;
+        disableInput();
+    }
+}
+
+function disableInput() {
+    const keyButtons = keyboard.children;
+    Array.from(keyButtons).forEach(button => {
+        button.disabled = true;
+    });
+}
+
+restartButton.addEventListener('click', initializeGame);
+
+document.addEventListener('keydown', (event) => {
+    const key = event.key.toUpperCase();
+    if (key === 'ENTER') {
+        handleSubmit();
+    } else if (key === 'BACKSPACE') {
+        handleDelete();
+    } else if (/^[A-ZÑ]$/.test(key)) {
+        handleKeyPress(key);
+    }
+});
+
+initializeGame();
+
+
+
